@@ -1,30 +1,45 @@
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import FooterNav from './components/FooterNav.vue';
+</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div class="min-h-screen w-screen overflow-x-hidden bg-background text-text font-inter flex flex-col justify-center items-center">
+    <h1 class="text-3xl text-green-600">Cryptique</h1>
+    <RouterView v-slot="{ Component }">
+      <Transition name="slide" class="p-8">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
+    <FooterNav class="footer-nav" />
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: 600ms ease all;
 }
 
-nav {
-  padding: 30px;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.slide-enter-active,
+.slide-leave-active {
+  transition: 400ms ease all;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.footer-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>

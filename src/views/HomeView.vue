@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div class="p-4 min-h-full w-screen bg-background text-text">
+    <main class="mt-2 gap-4 flex flex-col items-center justify-center">
+      <input type="text" v-model="message" class="mb-4 p-2 border-2 border-gray-300 rounded" placeholder="Enter text here">
+      <button class="p-2 bg-blue-500 text-white rounded" @click="sendMessage">Click me</button>
+    </main>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useMessageStore } from '@/stores/MessageStore';
 
-export default defineComponent({
-  name: "HomeView",
-  components: {
-    HelloWorld,
-  },
-});
+let message = ref('');
+const maxAttempts = 3; // replace with your value
+const maxDecrypts = 3; // replace with your value
+
+const store = useMessageStore();
+const router = useRouter();
+
+const sendMessage = async () => {
+  if (message.value) {
+    await store.createMessage(message.value, maxAttempts, maxDecrypts);
+    
+    router.push('/created');
+  }
+};
 </script>
