@@ -23,7 +23,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/decrypt/:id',
+      path: '/decrypt/:id?',
       name: 'decrypt',
       component: DecryptView,
       meta: {

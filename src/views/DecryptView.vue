@@ -1,9 +1,11 @@
 <template>
     <div class="p-4 min-h-full w-screen bg-background text-text">
       <main class="mt-2 gap-4 flex flex-col items-center justify-center">
-        <p>Decrypt Message with id {{ messageId }}</p>
-        <input type="text" v-model="key" class="mb-4 p-2 border-2 border-gray-300 rounded" placeholder="Enter key here">
+        <input type="text" v-model="messageId" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-1/3" placeholder="Enter ID here">
+        <input type="text" v-model="key" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-1/3" placeholder="Enter key here">
         <button class="p-2 bg-blue-500 text-white rounded" @click="decryptMessage">Decrypt</button>
+
+        <textarea v-if="decryptedMessage" v-model="decryptedMessage" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-3/4 h-20" readonly></textarea>
       </main>
     </div>
   </template>
@@ -15,20 +17,27 @@
   
   let messageId = ref('');
   let key = ref('');
-  const maxAttempts = 3; // replace with your value
-  const maxDecrypts = 3; // replace with your value
+
+  let decryptedMessage = ref('');
   
   const store = useMessageStore();
   const route = useRoute();
 
   onMounted(() => {
-    messageId.value = route.query.id as string;
+    if (route.params.id) {
+      messageId.value = route.params.id as string;
+    }
   });
   
   const decryptMessage = async () => {
-    if (messageId.value && key.value) {
-      await store.decrypt(messageId.value, key.value);
-      
+    if (!messageId.value || !key.value) {
+      return;
+    }
+
+    const success = await store.decrypt(messageId.value, key.value);
+
+    if (success) {
+      decryptedMessage.value = store.getDecryptedMessage() ?? 'NO MESSAGE FOUND';
     }
   };
   </script>

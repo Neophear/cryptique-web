@@ -5,6 +5,11 @@ import FooterNav from './components/FooterNav.vue';
 
 <template>
   <div class="min-h-screen w-screen overflow-x-hidden bg-background text-text font-inter flex flex-col justify-center items-center">
+    <nav class="mb-4">
+      <router-link to="/" class="m-2">Home</router-link>
+      <router-link to="/about" class="m-2">About</router-link>
+      <router-link to="/decrypt" class="m-2">Decrypt</router-link>
+    </nav>
     <h1 class="text-3xl text-green-600">Cryptique</h1>
     <RouterView v-slot="{ Component }">
       <Transition name="slide" class="p-8">

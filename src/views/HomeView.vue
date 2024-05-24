@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 min-h-full w-screen bg-background text-text">
     <main class="mt-2 gap-4 flex flex-col items-center justify-center">
-      <input type="text" v-model="message" class="mb-4 p-2 border-2 border-gray-300 rounded" placeholder="Enter text here">
+      <textarea v-model="message" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-3/4 h-20" placeholder="Enter text here"></textarea>
       <button class="p-2 bg-blue-500 text-white rounded" @click="sendMessage">Click me</button>
     </main>
   </div>

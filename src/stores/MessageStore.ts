@@ -5,6 +5,7 @@ import { addMessage, decryptMessage } from '@/services/ApiService'
 export const useMessageStore = defineStore('messageStore', () => {
   const id = ref<string | null>(null)
   const key = ref<string | null>(null)
+  const decryptedMessage = ref<string | null>(null)
 
   const createMessage = async (message: string, maxAttempts: number, maxDecrypts: number) => {
     const response = await addMessage(message, maxAttempts, maxDecrypts)
@@ -22,13 +23,32 @@ export const useMessageStore = defineStore('messageStore', () => {
     return value;
   }
 
+  /**
+   * Get the decrypted message from the store and reset it to null
+   * @returns {string | null} The decrypted message
+   */
+  const getDecryptedMessage = () => {
+    const value = decryptedMessage.value;
+    decryptedMessage.value = null;
+    return value;
+  }
+
+  /**
+   * Decrypt a message
+   * @param {string} id The message id
+   * @param {string} key The key
+   * @returns {boolean} True if the decryption was successful
+   */
   const decrypt = async (id: string, key: string) => {
     const response = await decryptMessage(id, key);
     
-    return response.data.data.message;
+    if (response.status != 200) {
+      return false;
+    }
+    
+    decryptedMessage.value = response.data.data.message;
+    return true;
   }
 
-
-
-  return { id, createMessage, getKey, decrypt }
+  return { id, createMessage, getKey, decrypt, getDecryptedMessage }
 })

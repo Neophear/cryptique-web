@@ -3,9 +3,9 @@
     <main class="mt-2 gap-4 flex flex-col items-center justify-center">
       <p>Id: {{ id }}</p>
       <div class="border p-2 min-w-[200px] rounded">
-        <div class="flex items-center justify-between">
-          <p>Key: {{ key }}</p>
-          <button @click="copyKey" class="relative w-6 h-6 flex items-center justify-center">
+        <div class="flex items-center justify-between p-1 font-mono text-xl tracking-wider">
+          <p>{{ key }}</p>
+          <button @click="copyKey" class="relative w-6 h-6 ml-1 flex items-center justify-center">
             <transition name="fade">
               <component :is="iconComponent" class="h-6 w-6 absolute" />
             </transition>
@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watchEffect } from 'vue'
 import { useMessageStore } from '@/stores/MessageStore'
-import { ClipboardIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import { ClipboardIcon, CheckIcon } from '@heroicons/vue/24/outline'
 
 let id = ref('')
 let key = ref('')
@@ -28,8 +28,8 @@ let copied = ref(false)
 const store = useMessageStore()
 
 onMounted(() => {
-  id.value = store.id ?? ''
-  key.value = store.getKey() ?? ''
+  id.value = store.id ?? '';
+  key.value = store.getKey() ?? 'NO KEY FOUND';
 });
 
 const copyKey = () => {
