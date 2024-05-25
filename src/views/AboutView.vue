@@ -3,9 +3,9 @@
         <h1>About Us</h1>
         <p>This is the about page of our application.</p>
         <div class="icons">
-            <HeroIcon name="home" class="h-6 w-6 text-gray-500"/>
-            <HeroIcon name="user" class="h-6 w-6 text-gray-500"/>
-            <HeroIcon name="mail" class="h-6 w-6 text-gray-500"/>
+            <HeroIcons name="home" class="h-6 w-6 text-gray-500"/>
+            <HeroIcons name="user" class="h-6 w-6 text-gray-500"/>
+            <HeroIcons name="mail" class="h-6 w-6 text-gray-500"/>
         </div>
         <p>
             Icons made by <a href="https://heroicons.com/" target="_blank">Heroicons</a>.
@@ -14,12 +14,12 @@
     </div>
 </template>
 
-<script>
-import { HeroIcon } from '@heroicons/vue/outline'
+<script lang="ts">
+import HeroIcons from '@heroicons/vue/outline'
 
 export default {
     components: {
-        HeroIcon
+        HeroIcons
     }
 }
 </script>
