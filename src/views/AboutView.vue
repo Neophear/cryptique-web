@@ -1,12 +1,15 @@
 <template>
     <div class="about">
-        <h1>About Us</h1>
-        <p>This is the about page of our application.</p>
-        <div class="icons">
-            <HeroIcons name="home" class="h-6 w-6 text-gray-500"/>
-            <HeroIcons name="user" class="h-6 w-6 text-gray-500"/>
-            <HeroIcons name="mail" class="h-6 w-6 text-gray-500"/>
-        </div>
+        <p>
+            Welcome to my hobby project! Here, you can encrypt your text or data and send the decryption info to someone else (or use it yourself).
+            Here's the scoop: the encryption happens on the server, which randomly generates a key that isn't stored anywhere.
+            Once your message is encrypted, the key is sent back to you and promptly forgotten by the server.<br />
+            <br />
+            Since this is just for fun, I can't promise your messages will stick around for the advertised time.<br />
+        <br />
+            Got questions or suggestions? Just drop me a line on my <a href="https://github.com/neophear">github</a>.
+        </p>
+        <br />
         <p>
             Icons made by <a href="https://heroicons.com/" target="_blank">Heroicons</a>.
             Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.
@@ -15,23 +18,11 @@
 </template>
 
 <script lang="ts">
-import HeroIcons from '@heroicons/vue/outline'
 
-export default {
-    components: {
-        HeroIcons
-    }
-}
 </script>
 
 <style scoped>
 .about {
-    text-align: center;
-}
-
-.icons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+    text-align: left;
 }
 </style>

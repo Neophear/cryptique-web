@@ -1,11 +1,11 @@
 <template>
     <div class="p-4 min-h-full w-screen bg-background text-text">
       <main class="mt-2 gap-4 flex flex-col items-center justify-center">
-        <input type="text" v-model="messageId" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-1/3" placeholder="Enter ID here">
-        <input type="text" v-model="key" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-1/3" placeholder="Enter key here">
+        <input type="text" v-model="messageId" class="mb-4 p-2 w-1/3" placeholder="Enter Id here">
+        <input type="text" v-model="key" class="mb-4 p-2 w-1/3" placeholder="Enter key here">
         <button class="p-2 bg-blue-500 text-white rounded" @click="decryptMessage">Decrypt</button>
 
-        <textarea v-if="decryptedMessage" v-model="decryptedMessage" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-3/4 h-20" readonly></textarea>
+        <textarea v-if="decryptedMessage" v-model="decryptedMessage" class="mb-4 p-2 w-3/4 h-20" readonly></textarea>
       </main>
     </div>
   </template>

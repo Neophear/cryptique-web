@@ -1,8 +1,25 @@
 <template>
   <div class="p-4 min-h-full w-screen bg-background text-text">
     <main class="mt-2 gap-4 flex flex-col items-center justify-center">
-      <textarea v-model="message" class="mb-4 p-2 border-2 border-gray-300 rounded text-slate-700 w-3/4 h-20" placeholder="Enter text here"></textarea>
-      <button class="p-2 bg-blue-500 text-white rounded" @click="sendMessage">Click me</button>
+      <textarea v-model="message" class="mb-4 p-2 w-3/4 h-20" placeholder="Enter text here"></textarea>
+      <button class="p-2 bg-primary text-white rounded" @click="sendMessage">Encrypt</button>
+      <button class="p-2 bg-blue-500 text-white rounded mt-4" @click="showAdvancedOptions = !showAdvancedOptions">
+        Advanced Options
+      </button>
+      <transition name="slide-fade">
+        <div v-show="showAdvancedOptions" class="mt-4 rounded-lg bg-slate-800 border-2 border-slate-500 p-4">
+          <div class="grid grid-cols-2 gap-2">
+            <label for="maxAttempts">Max Attempts</label>
+            <input id="maxAttempts" type="number" v-model="maxAttempts" />
+          
+            <label for="maxDecrypts">Max Decrypts</label>
+            <input id="maxDecrypts" type="number" v-model="maxDecrypts" />
+          
+            <label for="expiration">Expiration</label>
+            <input id="expiration" type="datetime-local" v-model="expiration" />
+          </div>
+        </div>
+      </transition>
     </main>
   </div>
 </template>
@@ -11,19 +28,48 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMessageStore } from '@/stores/MessageStore';
+import { useToast } from 'vue-toast-notification';
+import type { MessageOptions } from '@/models/MessageOptions'
 
 let message = ref('');
-const maxAttempts = 3; // replace with your value
-const maxDecrypts = 3; // replace with your value
+let showAdvancedOptions = ref(false);
+let maxAttempts = ref(3);
+let maxDecrypts = ref(3);
+// Now + 7 days
+let expiration = ref(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString());
 
 const store = useMessageStore();
 const router = useRouter();
 
 const sendMessage = async () => {
   if (message.value) {
-    await store.createMessage(message.value, maxAttempts, maxDecrypts);
-    
-    router.push('/created');
+    try {
+      const options: MessageOptions = {
+        maxAttempts: maxAttempts.value,
+        maxDecrypts: maxDecrypts.value,
+        expiration: expiration.value
+      };
+
+      await store.createMessage(message.value, options);
+      
+      router.push('/created');
+    } catch (error) {
+      const toast = useToast();
+      toast.error('There was an issue creating the message');
+    }
   }
 };
 </script>
+
+<style scoped>
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateY(10px);
+  opacity: 0;
+}
+</style>

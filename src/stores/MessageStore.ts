@@ -1,14 +1,15 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { addMessage, decryptMessage } from '@/services/ApiService'
+import type { MessageOptions } from '@/models/MessageOptions'
 
 export const useMessageStore = defineStore('messageStore', () => {
   const id = ref<string | null>(null)
   const key = ref<string | null>(null)
   const decryptedMessage = ref<string | null>(null)
 
-  const createMessage = async (message: string, maxAttempts: number, maxDecrypts: number) => {
-    const response = await addMessage(message, maxAttempts, maxDecrypts)
+  const createMessage = async (message: string, options: MessageOptions) => {
+    const response = await addMessage(message, options)
     id.value = response.data.data.id
     key.value = response.data.data.key
   }

@@ -29,3 +29,11 @@
   background-color: #6366f1 !important;
   color: #f3f4f6 !important;
 }
+
+a {
+  @apply text-primary;
+}
+
+textarea, input {
+  @apply rounded text-slate-700 border-2 border-gray-300;
+}
