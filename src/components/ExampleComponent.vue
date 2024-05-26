@@ -19,7 +19,7 @@
         console.log(response);
       },
       async sendMessage() {
-        const response = await addMessage("Hello World", 3, 5);
+        const response = await addMessage("Hello World");
         console.log(response);
       },
       async uploadFile(event: Event) {

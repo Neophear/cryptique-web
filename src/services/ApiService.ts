@@ -9,12 +9,12 @@ export const healthCheck = () => {
 };
 
 // Add message
-export const addMessage = (message: string, options: MessageOptions) => {
+export const addMessage = (message: string, options?: MessageOptions) => {
     const payload = {
         message,
-        maxAttempts: options.maxAttempts,
-        maxDecrypts: options.maxDecrypts,
-        expiration: options.expiration,
+        maxAttempts: options?.maxAttempts,
+        maxDecrypts: options?.maxDecrypts,
+        expiration: options?.expiration,
     };
     return postRequest({ endpoint: `${API_URL}/message`, payload, skipAuth: false, multipart: false });
 };
