@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router'
-import FooterNav from './components/FooterNav.vue';
-</script>
-
 <template>
   <div class="min-h-screen w-screen overflow-x-hidden bg-background text-text font-inter flex flex-col justify-center items-center">
     <nav class="mb-4">
@@ -19,6 +14,31 @@ import FooterNav from './components/FooterNav.vue';
     <FooterNav class="footer-nav" />
   </div>
 </template>
+
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import { onMounted } from 'vue';
+import FooterNav from './components/FooterNav.vue';
+import { healthCheck } from './services/ApiService';
+import { useToast } from 'vue-toast-notification'
+
+onMounted(async () => {
+  // Call the healthCheck function
+  let success = false;
+  try {
+    const response = await healthCheck();
+    success = response.data.ok;
+  } catch (error) {
+    console.error(error);
+  }
+  if (!success) {
+    // If there are issues, display a toast
+    const toast = useToast();
+    toast.error('There was an issue connecting to the server');
+  }
+});
+
+</script>
 
 <style>
 .fade-enter-active,

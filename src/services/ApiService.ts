@@ -1,6 +1,6 @@
 import { getRequest, postRequest } from "@/helpers/http";
 
-const API_URL = "https://cryptique.dev";
+const API_URL = "https://api.cryptique.dev";
 
 // Health check
 export const healthCheck = () => {

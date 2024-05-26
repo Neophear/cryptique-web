@@ -10,9 +10,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: {
-        title: "Home",
-      },
     },
     {
       path: '/created',
@@ -33,12 +30,12 @@ const router = createRouter({
   ]
 })
 
-const DEFAULT_TITLE = 'DEFAULT TITLE';
+const DEFAULT_TITLE = 'Cryptique | Securely share secrets';
 router.afterEach((to, from) => {
   let title = DEFAULT_TITLE;
 
   if (to.meta.title != undefined) {
-    title = "PAGE | " + to.meta.title;
+    title = "Cryptique | " + to.meta.title;
   }
   document.title = title;
 });
