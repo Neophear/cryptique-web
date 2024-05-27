@@ -15,8 +15,11 @@
             <label for="maxDecrypts">Max Decrypts</label>
             <input id="maxDecrypts" type="number" v-model="maxDecrypts" />
           
-            <label for="expiration">Expiration</label>
-            <input id="expiration" type="datetime-local" v-model="expiration" />
+            <label for="expirationDate">Expiration date</label>
+            <input id="expirationDate" type="date" v-model="expirationDate" />
+            
+            <label for="expirationTime">Expiration time</label>
+            <input id="expirationTime" type="time" v-model="expirationTime" />
           </div>
         </div>
       </transition>
@@ -25,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMessageStore } from '@/stores/MessageStore';
 import { useToast } from 'vue-toast-notification';
@@ -33,21 +36,39 @@ import type { MessageOptions } from '@/models/MessageOptions'
 
 let message = ref('');
 let showAdvancedOptions = ref(false);
-let maxAttempts = ref(3);
-let maxDecrypts = ref(3);
+let maxAttempts = ref(0);
+let maxDecrypts = ref(0);
 // Now + 7 days
-let expiration = ref(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString());
+let expirationDate = ref('');
+let expirationTime = ref('');
 
 const store = useMessageStore();
 const router = useRouter();
 
+onMounted(() => {
+  const now = new Date();
+
+  // Set expiration to 7 days from now
+  now.setDate(now.getDate() + 7);
+
+  // Set to this whole hour
+  now.setMilliseconds(0);
+  now.setSeconds(0);
+  now.setMinutes(0);
+
+  expirationDate.value = now.toISOString().split('T')[0];
+  expirationTime.value = now.toTimeString().split(' ')[0];
+});
+
 const sendMessage = async () => {
   if (message.value) {
     try {
+      const expirationDateTime = new Date(`${expirationDate.value}T${expirationTime.value}`).toISOString();
+
       const options: MessageOptions = {
         maxAttempts: maxAttempts.value,
         maxDecrypts: maxDecrypts.value,
-        expiration: expiration.value
+        expiration: expirationDateTime
       };
 
       await store.createMessage(message.value, options);
