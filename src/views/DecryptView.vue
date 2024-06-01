@@ -19,7 +19,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMessageStore } from '@/stores/MessageStore'
-import { useToast } from 'vue-toastification'
+import { useToast } from 'vue-toast-notification';
 
 let messageId = ref('')
 let key = ref('')
